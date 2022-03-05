@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "fancysporeblossom",
+  "version": "${version}",
+  "name": "FancySporeBlossom",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/fancy_spore_blossom/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "voidedmirror.FancySporeBlossom.client.FancySporeBlossomClient"
+    ],
+    "main": [
+      "voidedmirror.FancySporeBlossom.FancySporeBlossom"
+    ]
+  },
+  "mixins": [
+    "FancySporeBlossom.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.13.3",
+    "fabric": "*",
+    "minecraft": "1.18.2"
+  }
+}
