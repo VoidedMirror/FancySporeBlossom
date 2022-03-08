@@ -4,6 +4,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachmentBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
@@ -12,6 +13,8 @@ import net.minecraft.item.DyeableItem;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockRenderView;
 import voidedmirror.FancySporeBlossom.FancySporeBlossom;
+import voidedmirror.FancySporeBlossom.client.particle.FancyAirParticle;
+import voidedmirror.FancySporeBlossom.client.particle.FancyFallingParticle;
 
 @Environment(EnvType.CLIENT)
 public class FancySporeBlossomClient implements ClientModInitializer {
@@ -29,6 +32,9 @@ public class FancySporeBlossomClient implements ClientModInitializer {
         ColorProviderRegistry.ITEM.register((stack, tintIndex) ->
                 ((DyeableItem)stack.getItem()).getColor(stack),
                 FancySporeBlossom.FANCY_SPORE_BLOSSOM_ITEM);
+
+        ParticleFactoryRegistry.getInstance().register(FancySporeBlossom.FANCY_SPORE_BLOSSOM_AIR, FancyAirParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(FancySporeBlossom.FANCY_FALLING_SPORE_BLOSSOM, FancyFallingParticle.Factory::new);
     }
 
     public int getBlockEntityColor(BlockRenderView world, BlockPos pos) {
