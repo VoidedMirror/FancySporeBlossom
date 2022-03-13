@@ -1,4 +1,6 @@
 # FancySporeBlossom
+![Fancy Spore Blossom](src/main/resources/assets/fancysporeblossom/fancy_spore_blossom_icon.png?raw=true)
+
 Minecraft Fabric mod that adds a new FancySporeBlossom block into the game.
 
 The FancySporeBlossom can be dyed any color the same as leather armour dying works in the Vanilla game, and the particle effects and block will match the dyed color.
