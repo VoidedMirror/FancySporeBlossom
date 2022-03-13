@@ -10,7 +10,7 @@
           "functions": [
             {
               "function": "minecraft:set_nbt",
-              "tag": "{display: {color: 0}}"
+              "tag": "{display: {color: 0, glowing: 0}}"
             },
             {
               "function": "minecraft:copy_nbt",
@@ -19,6 +19,11 @@
                 {
                   "source": "color",
                   "target": "display.color",
+                  "op": "replace"
+                },
+                {
+                  "source": "glowing",
+                  "target": "display.glowing",
                   "op": "replace"
                 }
               ]

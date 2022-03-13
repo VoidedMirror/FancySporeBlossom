@@ -9,12 +9,12 @@ import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachmentBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.item.DyeableItem;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockRenderView;
 import voidedmirror.FancySporeBlossom.FancySporeBlossom;
 import voidedmirror.FancySporeBlossom.client.particle.FancyAirParticle;
 import voidedmirror.FancySporeBlossom.client.particle.FancyFallingParticle;
+import voidedmirror.FancySporeBlossom.item.FancyDyeableItem;
 
 @Environment(EnvType.CLIENT)
 public class FancySporeBlossomClient implements ClientModInitializer {
@@ -30,7 +30,7 @@ public class FancySporeBlossomClient implements ClientModInitializer {
         }, FancySporeBlossom.FANCY_SPORE_BLOSSOM_BLOCK);
 
         ColorProviderRegistry.ITEM.register((stack, tintIndex) ->
-                ((DyeableItem)stack.getItem()).getColor(stack),
+                ((FancyDyeableItem)stack.getItem()).getColor(stack),
                 FancySporeBlossom.FANCY_SPORE_BLOSSOM_ITEM);
 
         ParticleFactoryRegistry.getInstance().register(FancySporeBlossom.FANCY_SPORE_BLOSSOM_AIR, FancyAirParticle.Factory::new);
@@ -38,11 +38,10 @@ public class FancySporeBlossomClient implements ClientModInitializer {
     }
 
     public int getBlockEntityColor(BlockRenderView world, BlockPos pos) {
-        BlockEntity entity = world.getBlockEntity(pos);
-        if (entity instanceof  RenderAttachmentBlockEntity) {
-            Object data = ((RenderAttachmentBlockEntity)entity).getRenderAttachmentData();
-            if (data instanceof Integer) {
-                return (Integer) data;
+        if (world.getBlockEntity(pos) instanceof RenderAttachmentBlockEntity renderAttachmentBlockEntity) {
+            Object data = renderAttachmentBlockEntity.getRenderAttachmentData();
+            if (data instanceof Integer color) {
+                return color;
             }
         }
         return 0xFFFFFF;

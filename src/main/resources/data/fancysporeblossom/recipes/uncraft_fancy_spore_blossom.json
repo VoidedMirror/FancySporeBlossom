@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "fancysporeblossom:fancy_spore_blossom"
+    }
+  ],
+  "result": {
+    "item": "minecraft:spore_blossom",
+    "count": 1
+  }
+}

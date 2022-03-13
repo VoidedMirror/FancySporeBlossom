@@ -9,7 +9,9 @@ import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.particle.ParticleType;
+import net.minecraft.recipe.SpecialRecipeSerializer;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import voidedmirror.FancySporeBlossom.block.FancySporeBlossomBlock;
@@ -17,6 +19,7 @@ import voidedmirror.FancySporeBlossom.block.entity.FancySporeBlossomBlockEntity;
 import voidedmirror.FancySporeBlossom.item.FancySporeBlossomItem;
 import voidedmirror.FancySporeBlossom.particle.FancyAirParticleEffect;
 import voidedmirror.FancySporeBlossom.particle.FancyFallingParticleEffect;
+import voidedmirror.FancySporeBlossom.recipe.FancySporeBlossomRecipe;
 
 public class FancySporeBlossom implements ModInitializer {
     public static final String MOD_ID = "fancysporeblossom";
@@ -26,6 +29,7 @@ public class FancySporeBlossom implements ModInitializer {
     public static FancySporeBlossomItem FANCY_SPORE_BLOSSOM_ITEM;
     public static ParticleType<FancyAirParticleEffect> FANCY_SPORE_BLOSSOM_AIR;
     public static ParticleType<FancyFallingParticleEffect> FANCY_FALLING_SPORE_BLOSSOM;
+    public static SpecialRecipeSerializer<FancySporeBlossomRecipe> FANCY_SPORE_BLOSSOM_RECIPE;
 
     @Override
     public void onInitialize() {
@@ -33,10 +37,11 @@ public class FancySporeBlossom implements ModInitializer {
         registerEntities();
         registerItems();
         registerParticles();
+        registerRecipes();
     }
 
-    public void registerBlocks() {
-        FANCY_SPORE_BLOSSOM_BLOCK = Registry.register(Registry.BLOCK, getID("fancy_spore_blossom"), new FancySporeBlossomBlock(FabricBlockSettings.of(Material.PLANT).breakInstantly().noCollision().sounds(BlockSoundGroup.SPORE_BLOSSOM)));
+    private void registerBlocks() {
+        FANCY_SPORE_BLOSSOM_BLOCK = Registry.register(Registry.BLOCK, getID("fancy_spore_blossom"), new FancySporeBlossomBlock(FabricBlockSettings.of(Material.PLANT).breakInstantly().noCollision().sounds(BlockSoundGroup.SPORE_BLOSSOM).luminance(state -> state.get(Properties.LIT) ? 12 : 0)));
     }
 
     private void registerEntities() {
@@ -62,8 +67,11 @@ public class FancySporeBlossom implements ModInitializer {
         });
     }
 
-    public Identifier getID(String string) {
-        return new Identifier(MOD_ID, string);
+    private void registerRecipes() {
+        FANCY_SPORE_BLOSSOM_RECIPE = Registry.register(Registry.RECIPE_SERIALIZER, getID("crafting_special_fancy_spore_blossom"), new SpecialRecipeSerializer<>(FancySporeBlossomRecipe::new));
     }
 
+    public static Identifier getID(String string) {
+        return new Identifier(MOD_ID, string);
+    }
 }

@@ -12,11 +12,14 @@ import voidedmirror.FancySporeBlossom.particle.FancyFallingParticleEffect;
 
 @Environment(EnvType.CLIENT)
 public class FancyFallingParticle extends SpriteBillboardParticle {
+    public boolean glowing;
+
     protected FancyFallingParticle(ClientWorld clientWorld, double x, double y, double z, double velocityX, double velocityY, double velocityZ, FancyFallingParticleEffect parameters, SpriteProvider spriteProvider) {
         super(clientWorld, x, y, z);
         this.red = parameters.getColor().getX();
         this.green = parameters.getColor().getY();
         this.blue = parameters.getColor().getZ();
+        this.glowing = parameters.isGlowing();
         this.setBoundingBoxSpacing(0.01f, 0.01f);
         this.maxAge = (int)(64.0f / MathHelper.nextBetween(clientWorld.random, 0.1f, 0.9f));
         this.setSpriteForAge(spriteProvider);
@@ -25,6 +28,9 @@ public class FancyFallingParticle extends SpriteBillboardParticle {
 
     @Override
     public ParticleTextureSheet getType() {
+        if (glowing) {
+            return ParticleTextureSheet.PARTICLE_SHEET_TRANSLUCENT;
+        }
         return ParticleTextureSheet.PARTICLE_SHEET_OPAQUE;
     }
 
@@ -37,7 +43,7 @@ public class FancyFallingParticle extends SpriteBillboardParticle {
         if (this.dead) {
             return;
         }
-        this.velocityY -= (double)this.gravityStrength;
+        this.velocityY -= this.gravityStrength;
         this.move(this.velocityX, this.velocityY, this.velocityZ);
         if (this.onGround) {
             this.markDead();
@@ -45,9 +51,9 @@ public class FancyFallingParticle extends SpriteBillboardParticle {
         if (this.dead) {
             return;
         }
-        this.velocityX *= (double)0.98;
-        this.velocityY *= (double)0.98;
-        this.velocityZ *= (double)0.98;
+        this.velocityX *= 0.98;
+        this.velocityY *= 0.98;
+        this.velocityZ *= 0.98;
         BlockPos blockPos = new BlockPos(this.x, this.y, this.z);
         FluidState fluidState = this.world.getFluidState(blockPos);
         if (fluidState.getFluid() == Fluids.EMPTY && this.y < (double)((float)blockPos.getY() + fluidState.getHeight(this.world, blockPos))) {
@@ -59,6 +65,14 @@ public class FancyFallingParticle extends SpriteBillboardParticle {
         if (this.maxAge-- <= 0) {
             this.markDead();
         }
+    }
+
+    @Override
+    public int getBrightness(float tint) {
+        if (glowing) {
+            return 220;
+        }
+        return super.getBrightness(tint);
     }
 
     @Environment(EnvType.CLIENT)

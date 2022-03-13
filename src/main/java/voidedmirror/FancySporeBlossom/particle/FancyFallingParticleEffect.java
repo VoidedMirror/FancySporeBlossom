@@ -15,28 +15,30 @@ import java.util.Locale;
 
 public class FancyFallingParticleEffect implements ParticleEffect {
     public static final Vec3f WHITE = new Vec3f(Vec3d.unpackRgb(0xFFFFFF));
-    public static final FancyFallingParticleEffect DEFAULT = new FancyFallingParticleEffect(WHITE);
+    public static final FancyFallingParticleEffect DEFAULT = new FancyFallingParticleEffect(WHITE, false);
     public static final Codec<FancyFallingParticleEffect> CODEC = Codec.unit(DEFAULT);
     public static final Factory<FancyFallingParticleEffect> PARAMETERS_FACTORY = new Factory<FancyFallingParticleEffect>(){
 
         @Override
         public FancyFallingParticleEffect read(ParticleType<FancyFallingParticleEffect> type, StringReader reader) throws CommandSyntaxException {
-            Vec3f vec3f = readColor(reader);
+            Vec3f color = readColor(reader);
             reader.expect(' ');
-            float f = reader.readFloat();
-            return new FancyFallingParticleEffect(vec3f);
+            boolean glowing = reader.readBoolean();
+            return new FancyFallingParticleEffect(color, glowing);
         }
 
         @Override
         public FancyFallingParticleEffect read(ParticleType<FancyFallingParticleEffect> type, PacketByteBuf packetByteBuf) {
-            return new FancyFallingParticleEffect(readColor(packetByteBuf));
+            return new FancyFallingParticleEffect(readColor(packetByteBuf), packetByteBuf.readBoolean());
         }
     };
 
     private final Vec3f color;
+    private final boolean glowing;
 
-    public FancyFallingParticleEffect(Vec3f color) {
+    public FancyFallingParticleEffect(Vec3f color, boolean glowing) {
         this.color = color;
+        this.glowing = glowing;
     }
 
     public static Vec3f readColor(StringReader reader) throws CommandSyntaxException {
@@ -63,15 +65,19 @@ public class FancyFallingParticleEffect implements ParticleEffect {
         buf.writeFloat(this.color.getX());
         buf.writeFloat(this.color.getY());
         buf.writeFloat(this.color.getZ());
+        buf.writeBoolean(this.glowing);
     }
 
     @Override
     public String asString() {
-        return String.format(Locale.ROOT, "%s %.2f %.2f %.2f", Registry.PARTICLE_TYPE.getId(this.getType()), this.color.getX(), this.color.getY(), this.color.getZ());
+        return String.format(Locale.ROOT, "%s %.2f %.2f %.2f %b", Registry.PARTICLE_TYPE.getId(this.getType()), this.color.getX(), this.color.getY(), this.color.getZ(), this.glowing);
     }
 
     public Vec3f getColor() {
         return this.color;
     }
 
+    public boolean isGlowing() {
+        return glowing;
+    }
 }

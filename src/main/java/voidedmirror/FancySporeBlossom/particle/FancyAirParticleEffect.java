@@ -15,30 +15,33 @@ import java.util.Locale;
 
 public class FancyAirParticleEffect implements ParticleEffect {
     public static final Vec3f WHITE = new Vec3f(Vec3d.unpackRgb(0xFFFFFF));
-    public static final FancyAirParticleEffect DEFAULT = new FancyAirParticleEffect(WHITE, 1.0f);
+    public static final FancyAirParticleEffect DEFAULT = new FancyAirParticleEffect(WHITE, 1.0f, false);
     public static final Codec<FancyAirParticleEffect> CODEC = Codec.unit(DEFAULT);
     public static final ParticleEffect.Factory<FancyAirParticleEffect> PARAMETERS_FACTORY = new ParticleEffect.Factory<FancyAirParticleEffect>(){
 
         @Override
         public FancyAirParticleEffect read(ParticleType<FancyAirParticleEffect> type, StringReader reader) throws CommandSyntaxException {
-            Vec3f vec3f = readColor(reader);
+            Vec3f color = readColor(reader);
             reader.expect(' ');
-            float f = reader.readFloat();
-            return new FancyAirParticleEffect(vec3f, f);
+            float scale = reader.readFloat();
+            boolean glowing = reader.readBoolean();
+            return new FancyAirParticleEffect(color, scale, glowing);
         }
 
         @Override
         public FancyAirParticleEffect read(ParticleType<FancyAirParticleEffect> type, PacketByteBuf packetByteBuf) {
-            return new FancyAirParticleEffect(readColor(packetByteBuf), packetByteBuf.readFloat());
+            return new FancyAirParticleEffect(readColor(packetByteBuf), packetByteBuf.readFloat(), packetByteBuf.readBoolean());
         }
     };
 
     private final Vec3f color;
     private final float scale;
+    private final boolean glowing;
 
-    public FancyAirParticleEffect(Vec3f color, float scale) {
+    public FancyAirParticleEffect(Vec3f color, float scale, boolean glowing) {
         this.color = color;
         this.scale = scale;
+        this.glowing = glowing;
     }
 
     public static Vec3f readColor(StringReader reader) throws CommandSyntaxException {
@@ -66,11 +69,12 @@ public class FancyAirParticleEffect implements ParticleEffect {
         buf.writeFloat(this.color.getY());
         buf.writeFloat(this.color.getZ());
         buf.writeFloat(this.scale);
+        buf.writeBoolean(this.glowing);
     }
 
     @Override
     public String asString() {
-        return String.format(Locale.ROOT, "%s %.2f %.2f %.2f %.2f", Registry.PARTICLE_TYPE.getId(this.getType()), this.color.getX(), this.color.getY(), this.color.getZ(), this.scale);
+        return String.format(Locale.ROOT, "%s %.2f %.2f %.2f %.2f %b", Registry.PARTICLE_TYPE.getId(this.getType()), this.color.getX(), this.color.getY(), this.color.getZ(), this.scale, this.glowing);
     }
 
     public Vec3f getColor() {
@@ -79,4 +83,7 @@ public class FancyAirParticleEffect implements ParticleEffect {
 
     public float getScale() { return this.scale; }
 
+    public boolean isGlowing() {
+        return glowing;
+    }
 }

@@ -2,29 +2,31 @@ package voidedmirror.FancySporeBlossom.item;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.DyeableItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.item.*;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import voidedmirror.FancySporeBlossom.FancySporeBlossom;
 import voidedmirror.FancySporeBlossom.block.entity.FancySporeBlossomBlockEntity;
 
-public class FancySporeBlossomItem extends BlockItem implements DyeableItem {
+import java.util.List;
+
+public class FancySporeBlossomItem extends BlockItem implements FancyDyeableItem {
     public FancySporeBlossomItem(Settings settings) {
         super(FancySporeBlossom.FANCY_SPORE_BLOSSOM_BLOCK, settings);
     }
 
     @Override
-    public int getColor(ItemStack stack) {
-        NbtCompound tag = stack.getSubNbt(DISPLAY_KEY);
-        if (tag != null && tag.contains(COLOR_KEY, 99)) {
-            return tag.getInt(COLOR_KEY);
+    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+        super.appendTooltip(stack, world, tooltip, context);
+        if (((FancyDyeableItem)stack.getItem()).isGlowing(stack)) {
+            tooltip.add(new TranslatableText("item.fancysporeblossom.fancy_spore_blossom.tooltip.glowing").formatted(Formatting.AQUA));
         }
-        return 0xFFFFFF;
     }
 
     @Override
@@ -35,5 +37,4 @@ public class FancySporeBlossomItem extends BlockItem implements DyeableItem {
         }
         return super.postPlacement(pos, world, player, stack, state);
     }
-
 }

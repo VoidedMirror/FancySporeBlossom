@@ -12,6 +12,7 @@ import java.util.Optional;
 @Environment(EnvType.CLIENT)
 public class FancyAirParticle extends SpriteBillboardParticle {
     private final SpriteProvider spriteProvider;
+    public boolean glowing;
 
     protected FancyAirParticle(ClientWorld clientWorld, double x, double y, double z, double velocityX, double velocityY, double velocityZ, FancyAirParticleEffect parameters, SpriteProvider spriteProvider) {
         super(clientWorld, x, y - 0.125f, z, 0.0f, -0.8f, 0.0f);
@@ -19,6 +20,7 @@ public class FancyAirParticle extends SpriteBillboardParticle {
         this.green = parameters.getColor().getY();
         this.blue = parameters.getColor().getZ();
         this.scale *= parameters.getScale() * (this.random.nextFloat() * 0.6f + 0.6f);
+        this.glowing = parameters.isGlowing();
         this.setBoundingBoxSpacing(0.01f, 0.01f);
         this.spriteProvider = spriteProvider;
         this.maxAge = MathHelper.nextBetween(clientWorld.random, 500, 1000);
@@ -29,6 +31,9 @@ public class FancyAirParticle extends SpriteBillboardParticle {
 
     @Override
     public ParticleTextureSheet getType() {
+        if (glowing) {
+            return ParticleTextureSheet.PARTICLE_SHEET_TRANSLUCENT;
+        }
         return ParticleTextureSheet.PARTICLE_SHEET_OPAQUE;
     }
 
@@ -36,6 +41,14 @@ public class FancyAirParticle extends SpriteBillboardParticle {
     public void tick() {
         super.tick();
         this.setSpriteForAge(this.spriteProvider);
+    }
+
+    @Override
+    public int getBrightness(float tint) {
+        if (glowing) {
+            return 220 - (this.age / (this.maxAge / 20));
+        }
+        return super.getBrightness(tint);
     }
 
     @Override
