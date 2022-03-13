@@ -7,7 +7,7 @@
   "authors": [],
   "contact": {},
   "license": "MIT",
-  "icon": "assets/fancy_spore_blossom/icon.png",
+  "icon": "assets/fancysporeblossom/fancy_spore_blossom_icon.png",
   "environment": "*",
   "entrypoints": {
     "client": [

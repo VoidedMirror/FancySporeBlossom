@@ -17,6 +17,7 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3f;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -88,6 +89,15 @@ public class FancySporeBlossomBlock extends SporeBlossomBlock implements BlockEn
                 continue;
             world.addParticle(new FancyAirParticleEffect(getColor(world, pos), 1.0f, state.get(LIT)), (double)mutable.getX() + random.nextDouble(), (double)mutable.getY() + random.nextDouble(), (double)mutable.getZ() + random.nextDouble(), 0.0, 0.0, 0.0);
         }
+    }
+
+    @Override
+    public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
+        ItemStack itemStack = new ItemStack(this);
+        if (world.getBlockEntity(pos) instanceof FancySporeBlossomBlockEntity fancySporeBlossomBlockEntity) {
+            fancySporeBlossomBlockEntity.writeStackNbt(itemStack);
+        }
+        return itemStack;
     }
 
     public Vec3f getColor(World world, BlockPos pos) {
