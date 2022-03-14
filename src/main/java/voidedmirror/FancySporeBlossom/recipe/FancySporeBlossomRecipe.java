@@ -74,15 +74,18 @@ public class FancySporeBlossomRecipe extends SpecialCraftingRecipe {
         }
 
         if (fancyDyeableItemStack.isEmpty()) return ItemStack.EMPTY;
+        boolean isGlowing = false;
         if (!glowItemStack.isEmpty()) {
             if (((FancyDyeableItem)fancyDyeableItemStack.getItem()).isGlowing(fancyDyeableItemStack)) {
                 return ItemStack.EMPTY;
             }
-            ((FancyDyeableItem)fancyDyeableItemStack.getItem()).setGlowing(fancyDyeableItemStack);
+            isGlowing = true;
         }
+        ((FancyDyeableItem)fancyDyeableItemStack.getItem()).setGlowing(fancyDyeableItemStack, isGlowing);
         if (!dyeList.isEmpty()) {
             return FancyDyeableItem.blendAndSetColor(fancyDyeableItemStack, dyeList);
         }
+        fancyDyeableItemStack.setCount(1);
         return fancyDyeableItemStack;
     }
 

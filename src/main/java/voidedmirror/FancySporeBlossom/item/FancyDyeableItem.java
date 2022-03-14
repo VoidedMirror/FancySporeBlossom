@@ -45,8 +45,8 @@ public interface FancyDyeableItem {
         stack.getOrCreateSubNbt(DISPLAY_KEY).putInt(COLOR_KEY, color);
     }
 
-    default void setGlowing(ItemStack stack) {
-        stack.getOrCreateSubNbt(DISPLAY_KEY).putBoolean(GLOWING_KEY, true);
+    default void setGlowing(ItemStack stack, boolean glow) {
+        stack.getOrCreateSubNbt(DISPLAY_KEY).putBoolean(GLOWING_KEY, glow);
     }
 
     static ItemStack blendAndSetColor(ItemStack stack, List<DyeItem> colors) {
@@ -55,9 +55,8 @@ public interface FancyDyeableItem {
         int maxValue = 0;
         int dyeNum = 0;
         FancyDyeableItem fancyDyeableItem = null;
-        Item item = stack.getItem();
-        if (item instanceof FancyDyeableItem) {
-            fancyDyeableItem = (FancyDyeableItem) item;
+        if (stack.getItem() instanceof FancyDyeableItem) {
+            fancyDyeableItem = (FancyDyeableItem)stack.getItem();
             itemStack = stack.copy();
             itemStack.setCount(1);
             if (fancyDyeableItem.hasColor(stack)) {
