@@ -8,6 +8,7 @@ import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialCraftingRecipe;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 import voidedmirror.FancySporeBlossom.FancySporeBlossom;
 import voidedmirror.FancySporeBlossom.item.FancyDyeableItem;
 
@@ -81,12 +82,7 @@ public class FancySporeBlossomRecipe extends SpecialCraftingRecipe {
             }
             isGlowing = true;
         }
-        ((FancyDyeableItem)fancyDyeableItemStack.getItem()).setGlowing(fancyDyeableItemStack, isGlowing);
-        if (!dyeList.isEmpty()) {
-            return FancyDyeableItem.blendAndSetColor(fancyDyeableItemStack, dyeList);
-        }
-        fancyDyeableItemStack.setCount(1);
-        return fancyDyeableItemStack;
+        return FancyDyeableItem.buildItemStack(fancyDyeableItemStack, dyeList, isGlowing);
     }
 
     @Override

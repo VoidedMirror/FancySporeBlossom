@@ -4,6 +4,7 @@ import net.minecraft.item.DyeItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -97,6 +98,16 @@ public interface FancyDyeableItem {
         colorOut = (colorOut << 8) + greenNorm;
         colorOut = (colorOut << 8) + blueNorm;
         fancyDyeableItem.setColor(itemStack, colorOut);
+        return itemStack;
+    }
+
+    static ItemStack buildItemStack(ItemStack stack, List<DyeItem> colors, boolean isGlowing) {
+        ItemStack itemStack = stack.copy();
+        if (!colors.isEmpty()) {
+            itemStack = blendAndSetColor(stack, colors);;
+        }
+        ((FancyDyeableItem)itemStack.getItem()).setGlowing(itemStack, isGlowing);
+        itemStack.setCount(1);
         return itemStack;
     }
 }
