@@ -3,9 +3,14 @@
   "id": "fancysporeblossom",
   "version": "${version}",
   "name": "FancySporeBlossom",
-  "description": "",
-  "authors": [],
-  "contact": {},
+  "description": "Adds a FancySporeBlossom block to the game.",
+  "authors": [
+    "VoidedMirror"
+  ],
+  "contact": {
+    "sources": "https://github.com/VoidedMirror/FancySporeBlossom",
+    "issues": "https://github.com/VoidedMirror/FancySporeBlossom/issues"
+  },
   "license": "MIT",
   "icon": "assets/fancysporeblossom/fancy_spore_blossom_icon.png",
   "environment": "*",
@@ -17,12 +22,9 @@
       "voidedmirror.FancySporeBlossom.FancySporeBlossom"
     ]
   },
-  "mixins": [
-    "FancySporeBlossom.mixins.json"
-  ],
+  "mixins": [],
   "depends": {
     "fabricloader": ">=0.13.3",
-    "fabric": "*",
     "minecraft": "1.18.2"
   }
 }
