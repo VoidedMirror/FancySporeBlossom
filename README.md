@@ -8,17 +8,30 @@
 ## What is this mod?
 This is a Minecraft mod that adds a new Fancy Spore Blossom block into the game.
 
-The Fancy Spore Blossom can be dyed any color the same as leather armour dying works in the Vanilla game, and the particle effects and block will match the dyed color.
+The Fancy Spore Blossom can be dyed any color (the same as how leather armour dying works in the Vanilla game), and the particle effects and block will match the dyed color.
+
+![craft_dye_FSB](https://imgur.com/OJonGd5)
 
 You can also add a Glow Berry to the crafting grid with the other dyes to get a Fancy Spore Blossom that emits light and generates glowing particle effects.
 
+![craft_glow_FSB](https://imgur.com/4RVLpgF)
+
+![tooltip_FSB](https://imgur.com/E1fx9VR)
+
 To craft the Fancy Spore Blossom simply place a Vanilla Spore Blossom in any empty crafting grid. The default color for the FancySporeBlossom is pure White (#FFFFFF).
 You can get the Vanilla Spore Blossom item back by placing any Fancy Spore Blossom in an empty crafting grid.
+
+![craft_FSB](https://imgur.com/pY5AHa1)
+![uncraft_FSB](https://imgur.com/K8N5EpM)
 
 The Fancy Spore Blossom's particle effects currently function the same as the Vanilla particle effects and are included in the same particle group cap to maintain game performance. 
 
 ## How to use
 Download the jar file and place it in you mods folder along with [Fabric API].
+
+Works with Minecraft versions 1.18.1 and 1.18.2
+
+Requires Fabric API version 0.46.6 or higher.
 
 [Fancy Spore Blossom]: src/main/resources/assets/fancysporeblossom/fancy_spore_blossom_icon.png?raw=true
 [Fabric]: https://fabricmc.net
