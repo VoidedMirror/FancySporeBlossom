@@ -74,10 +74,13 @@ public class FancySporeBlossomRecipe extends SpecialCraftingRecipe {
             return ItemStack.EMPTY;
         }
 
-        if (fancyDyeableItemStack.isEmpty()) return ItemStack.EMPTY;
-        boolean isGlowing = false;
+        if (fancyDyeableItemStack.isEmpty()) {
+            return ItemStack.EMPTY;
+        }
+
+        boolean isGlowing = ((FancyDyeableItem)fancyDyeableItemStack.getItem()).isGlowing(fancyDyeableItemStack);
         if (!glowItemStack.isEmpty()) {
-            if (((FancyDyeableItem)fancyDyeableItemStack.getItem()).isGlowing(fancyDyeableItemStack)) {
+            if (isGlowing) {
                 return ItemStack.EMPTY;
             }
             isGlowing = true;

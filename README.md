@@ -6,13 +6,13 @@
 ![Fancy Spore Blossom]
 
 ## What is this mod?
-This is a Minecraft mod that adds a new Fancy Spore Blossom block into the game.
+This is a Minecraft mod which adds a new Fancy Spore Blossom block into the game.
 
 The Fancy Spore Blossom can be dyed any color (the same as how leather armour dying works in the Vanilla game), and the particle effects and block will match the dyed color.
 
 <img src="https://i.imgur.com/OJonGd5.png" height="160">
 
-You can also add a Glow Berry to the crafting grid with the other dyes to get a Fancy Spore Blossom that emits light and generates glowing particle effects.
+You can also add Glow berries to the crafting grid with the other dyes to get a Fancy Spore Blossom that emits light and generates glowing particle effects.
 
 <img src="https://i.imgur.com/4RVLpgF.png" height="160"> <img src="https://i.imgur.com/E1fx9VR.png" height="160">
 
