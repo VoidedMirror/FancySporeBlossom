@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "fancysporeblossom",
+  "version": "${version}",
+  "name": "FancySporeBlossom",
+  "description": "Adds a FancySporeBlossom block to the game.\nCraft with any number of dyes to change its color.\nCraft with a glowberry to make it give off light and glowing particles.",
+  "authors": [
+      "VoidedMirror"
+    ],
+  "contact": {
+    "sources": "https://github.com/VoidedMirror/FancySporeBlossom",
+    "issues": "https://github.com/VoidedMirror/FancySporeBlossom/issues"
+  },
+  "license": "MIT",
+  "icon": "fancy_spore_blossom_icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "voidedmirror.FancySporeBlossom.client.FabricFancySporeBlossomClient"
+    ],
+    "main": [
+      "voidedmirror.FancySporeBlossom.FabricFancySporeBlossom"
+    ]
+  },
+  "mixins": [],
+  "depends": {
+    "fabricloader": ">=0.13.3",
+    "fabric": ">=0.46.6",
+    "minecraft": ">=1.18.1",
+    "java": ">=17"
+  }
+}
+  

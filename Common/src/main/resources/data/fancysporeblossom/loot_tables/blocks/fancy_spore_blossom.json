@@ -1,0 +1,42 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:set_nbt",
+              "tag": "{display: {color: 0, glowing: 0b}}"
+            },
+            {
+              "function": "minecraft:copy_nbt",
+              "source": "block_entity",
+              "ops": [
+                {
+                  "source": "color",
+                  "target": "display.color",
+                  "op": "replace"
+                },
+                {
+                  "source": "glowing",
+                  "target": "display.glowing",
+                  "op": "replace"
+                }
+              ]
+            }
+          ],
+          "name": "fancysporeblossom:fancy_spore_blossom"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ]
+    }
+  ]
+}
