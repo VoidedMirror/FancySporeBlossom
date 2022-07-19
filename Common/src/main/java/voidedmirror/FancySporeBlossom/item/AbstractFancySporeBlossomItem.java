@@ -3,7 +3,6 @@ package voidedmirror.FancySporeBlossom.item;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -28,7 +27,7 @@ public abstract class AbstractFancySporeBlossomItem extends BlockItem implements
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
         if (((FancyDyeableItem)stack.getItem()).isGlowing(stack)) {
-            tooltip.add(new TranslatableComponent("item.fancysporeblossom.fancy_spore_blossom.tooltip.glowing").withStyle(ChatFormatting.AQUA));
+            tooltip.add(Component.translatable("item.fancysporeblossom.fancy_spore_blossom.tooltip.glowing").withStyle(ChatFormatting.AQUA));
         }
     }
 
