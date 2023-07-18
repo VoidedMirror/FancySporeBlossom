@@ -4,9 +4,13 @@ import com.mojang.math.Vector3f;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.GameRules;
@@ -19,6 +23,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
+import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -82,4 +87,37 @@ public abstract class AbstractFancySporeBlossomBlock extends SporeBlossomBlock i
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(LIT);
     }
+
+    @Override
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        ItemStack heldItem = player.getItemInHand(hand);
+
+        if (level.getBlockEntity(pos) instanceof AbstractFancySporeBlossomBlockEntity blockEntity) {
+            if (!level.isClientSide()) {
+                if (heldItem.getItem() instanceof DyeItem dyeItem) {
+                    blockEntity.mixColor(dyeItem.getDyeColor().getTextureDiffuseColors());
+                    return InteractionResult.CONSUME;
+                } else if (!blockEntity.isGlowing() && heldItem.getItem() == Items.GLOW_BERRIES) {
+                    blockEntity.setGlowing(true);
+                    level.setBlock(pos, state.setValue(LIT, true), 2);
+                    return InteractionResult.CONSUME;
+                } else if (blockEntity.isGlowing() && heldItem.getItem() == Items.SWEET_BERRIES) {
+                    blockEntity.setGlowing(false);
+                    level.setBlock(pos, state.setValue(LIT, false), 2);
+                    return InteractionResult.CONSUME;
+                }
+            } else if (heldItem.getItem() instanceof DyeItem
+                    || (!blockEntity.isGlowing() && heldItem.getItem() == Items.GLOW_BERRIES)
+                    || (blockEntity.isGlowing() && heldItem.getItem() == Items.SWEET_BERRIES)) {
+                if (!player.isCreative()) {
+                    heldItem.setCount(heldItem.getCount() - 1);
+                }
+                return InteractionResult.SUCCESS;
+            }
+        }
+
+        return super.use(state, level, pos, player, hand, hit);
+    }
+
+
 }
