@@ -8,22 +8,31 @@
 ![Fancy Spore Blossom]
 
 ## What is this mod?
-This is a Minecraft mod which adds a new Fancy Spore Blossom block into the game.
+This is a Minecraft mod which adds a new fancy spore blossom block into the game.
 
-The Fancy Spore Blossom can be dyed any color (the same as how leather armour dying works in the Vanilla game), and the particle effects and block will match the dyed color.
+The fancy spore blossom can be dyed any color (the same as how leather armour dying works in the Vanilla game), and the particle effects and block will match the dyed color.
 
 <img src="https://i.imgur.com/OJonGd5.png" height="160">
 
-You can also add Glow berries to the crafting grid with the other dyes to get a Fancy Spore Blossom that emits light (light level 12) and generates glowing particle effects.
+You can also add glow berries to the crafting grid (optionally with the other dyes) to get a fancy spore blossom that emits light (light level 12) and generates glowing particle effects.
 
 <img src="https://i.imgur.com/4RVLpgF.png" height="160"> <img src="https://i.imgur.com/E1fx9VR.png" height="160">
 
-The Fancy Spore Blossom does not generate in the world, instead you need to craft it. To craft the Fancy Spore Blossom simply place a Vanilla Spore Blossom in any empty crafting grid. The default color for the Fancy Spore Blossom is pure White (#FFFFFF).
-You can get the Vanilla Spore Blossom item back by placing any Fancy Spore Blossom in an empty crafting grid.
+You can add sweet berries to the crafting grid (optionally with the other dyes) to remove the glowing effect.
+
+<img src="https://i.imgur.com/giGEnhO.png" height="160">
+
+Ingredients can also be applied to the fancy spore blossom block directly with a right-click (just like dying signs).
+
+<img src="https://i.imgur.com/S89Su9B.gif" height="512">
+
+The fancy spore blossom does not generate in the world, instead you need to craft it. To craft the fancy spore blossom simply place a Vanilla spore blossom in any empty crafting grid. The default color for the fancy spore blossom is pure white (#FFFFFF).
+
+You can get the Vanilla spore blossom item back by placing any fancy spore blossom in an empty crafting grid.
 
 <img src="https://i.imgur.com/pY5AHa1.png" height="160"> <img src="https://i.imgur.com/K8N5EpM.png" height="160">
 
-The Fancy Spore Blossom's particle effects currently function the same as the Vanilla particle effects and are included in the same particle group cap to maintain game performance.
+The fancy spore blossom's particle effects currently function the same as the Vanilla particle effects and are included in the same particle group cap to maintain game performance.
 
 ## How to use
 Download the jar file that corresponds to the Minecraft version and mod loader you use (Forge or Fabric).

@@ -8,19 +8,18 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.level.Level;
 
 import org.jetbrains.annotations.NotNull;
-import voidedmirror.FancySporeBlossom.CommonClass;
 import voidedmirror.FancySporeBlossom.item.FancyDyeableItem;
 
 import java.util.ArrayList;
 
 
 public abstract class AbstractFancySporeBlossomRecipe extends CustomRecipe {
-    private static final Ingredient GLOW = Ingredient.of(Items.GLOW_BERRIES);
+    private static final Ingredient GLOW_ON = Ingredient.of(Items.GLOW_BERRIES);
+    private static final Ingredient GLOW_OFF = Ingredient.of(Items.SWEET_BERRIES);
 
     public AbstractFancySporeBlossomRecipe(ResourceLocation id) {
         super(id);
@@ -30,7 +29,8 @@ public abstract class AbstractFancySporeBlossomRecipe extends CustomRecipe {
     public boolean matches(CraftingContainer container, @NotNull Level level) {
         ItemStack fancyDyeableItemStack = ItemStack.EMPTY;
         boolean isDyes = false;
-        boolean isGlow = false;
+        boolean isGlowOn = false;
+        boolean isGlowOff = false;
         for (int i = 0; i < container.getContainerSize(); ++i) {
             ItemStack itemStack = container.getItem(i);
             if (itemStack.isEmpty()) { continue; }
@@ -43,20 +43,32 @@ public abstract class AbstractFancySporeBlossomRecipe extends CustomRecipe {
                 isDyes = true;
                 continue;
             }
-            if (GLOW.test(itemStack)) {
-                if (isGlow) { return false; }
-                isGlow = true;
+            if (GLOW_ON.test(itemStack)) {
+                if (isGlowOn) { return false; }
+                isGlowOn = true;
+                continue;
+            }
+            if (GLOW_OFF.test(itemStack)) {
+                if (isGlowOff) { return false; }
+                isGlowOff = true;
                 continue;
             }
             return false;
         }
-        return (!fancyDyeableItemStack.isEmpty()) && (isDyes || (isGlow && !((FancyDyeableItem)fancyDyeableItemStack.getItem()).isGlowing(fancyDyeableItemStack)));
+        if (fancyDyeableItemStack.isEmpty()) { return false; }
+
+        boolean isGlowing = ((FancyDyeableItem)fancyDyeableItemStack.getItem()).isGlowing(fancyDyeableItemStack);
+        boolean canGlowOn = isGlowOn && !isGlowOff && !isGlowing;
+        boolean canGlowOff = isGlowOff && !isGlowOn && isGlowing;
+
+        return canGlowOn || canGlowOff || (isDyes && !isGlowOn && !isGlowOff);
     }
 
     @Override
     public @NotNull ItemStack assemble(CraftingContainer container) {
         ItemStack fancyDyeableItemStack = ItemStack.EMPTY;
-        ItemStack glowItemStack = ItemStack.EMPTY;
+        ItemStack glowOnItemStack = ItemStack.EMPTY;
+        ItemStack glowOffItemStack = ItemStack.EMPTY;
         ArrayList<DyeItem> dyeList = Lists.newArrayList();
         for (int i = 0; i < container.getContainerSize(); ++i) {
             ItemStack itemStack = container.getItem(i);
@@ -66,23 +78,33 @@ public abstract class AbstractFancySporeBlossomRecipe extends CustomRecipe {
                 fancyDyeableItemStack = itemStack.copy();
                 continue;
             }
-            if (itemStack.getItem() instanceof DyeItem dyeItem) {
-                dyeList.add(dyeItem);
+            if (itemStack.getItem() instanceof DyeItem) {
+                dyeList.add((DyeItem)itemStack.getItem());
                 continue;
             }
-            if (GLOW.test(itemStack)) {
-                if (!glowItemStack.isEmpty()) { return ItemStack.EMPTY; }
-                glowItemStack = itemStack.copy();
+            if (GLOW_ON.test(itemStack)) {
+                if (!glowOnItemStack.isEmpty()) { return ItemStack.EMPTY; }
+                glowOnItemStack = itemStack;
+                continue;
+            }
+            if (GLOW_OFF.test(itemStack)) {
+                if (!glowOffItemStack.isEmpty()) { return ItemStack.EMPTY; }
+                glowOffItemStack = itemStack;
                 continue;
             }
             return ItemStack.EMPTY;
         }
         if (fancyDyeableItemStack.isEmpty()) { return ItemStack.EMPTY; }
+
         boolean isGlowing = ((FancyDyeableItem)fancyDyeableItemStack.getItem()).isGlowing(fancyDyeableItemStack);
-        if (!glowItemStack.isEmpty()) {
+        if (!glowOnItemStack.isEmpty() && glowOffItemStack.isEmpty()) {
             if (isGlowing) { return ItemStack.EMPTY; }
             isGlowing = true;
+        } else if (glowOnItemStack.isEmpty() && !glowOffItemStack.isEmpty()) {
+            if (!isGlowing) { return ItemStack.EMPTY; }
+            isGlowing = false;
         }
+
         return FancyDyeableItem.buildItemStack(fancyDyeableItemStack, dyeList, isGlowing);
     }
 
