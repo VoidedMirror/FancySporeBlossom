@@ -4,6 +4,8 @@ import com.mojang.math.Vector3f;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -96,14 +98,17 @@ public abstract class AbstractFancySporeBlossomBlock extends SporeBlossomBlock i
             if (!level.isClientSide()) {
                 if (heldItem.getItem() instanceof DyeItem dyeItem) {
                     blockEntity.mixColor(dyeItem.getDyeColor().getTextureDiffuseColors());
+                    level.playSound(null, pos, SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
                     return InteractionResult.CONSUME;
                 } else if (!blockEntity.isGlowing() && heldItem.getItem() == Items.GLOW_BERRIES) {
                     blockEntity.setGlowing(true);
                     level.setBlock(pos, state.setValue(LIT, true), 2);
+                    level.playSound(null, pos, SoundEvents.GLOW_INK_SAC_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
                     return InteractionResult.CONSUME;
                 } else if (blockEntity.isGlowing() && heldItem.getItem() == Items.SWEET_BERRIES) {
                     blockEntity.setGlowing(false);
                     level.setBlock(pos, state.setValue(LIT, false), 2);
+                    level.playSound(null, pos, SoundEvents.INK_SAC_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
                     return InteractionResult.CONSUME;
                 }
             } else if (heldItem.getItem() instanceof DyeItem
