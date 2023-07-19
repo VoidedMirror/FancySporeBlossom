@@ -1,6 +1,7 @@
 package voidedmirror.FancySporeBlossom.recipe;
 
 import com.google.common.collect.Lists;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -66,7 +67,7 @@ public abstract class AbstractFancySporeBlossomRecipe extends CustomRecipe {
     }
 
     @Override
-    public @NotNull ItemStack assemble(CraftingContainer container) {
+    public @NotNull ItemStack assemble(CraftingContainer container, RegistryAccess registryAccess) {
         ItemStack fancyDyeableItemStack = ItemStack.EMPTY;
         ItemStack glowOnItemStack = ItemStack.EMPTY;
         ItemStack glowOffItemStack = ItemStack.EMPTY;

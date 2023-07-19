@@ -47,7 +47,7 @@ public abstract class AbstractFancyFallingParticle extends TextureSheetParticle 
         xd *= 0.98;
         yd *= 0.98;
         zd *= 0.98;
-        BlockPos blockPos = new BlockPos(x, y, z);
+        BlockPos blockPos = BlockPos.containing(x, y, z);
         FluidState fluidState = level.getFluidState(blockPos);
         if (fluidState.getType() == Fluids.EMPTY && y < (double)((float)blockPos.getY() + fluidState.getHeight(level, blockPos))) {
             remove();
