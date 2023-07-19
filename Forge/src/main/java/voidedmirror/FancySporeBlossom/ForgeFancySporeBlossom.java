@@ -3,8 +3,10 @@ package voidedmirror.FancySporeBlossom;
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.particles.ParticleType;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraft.world.level.block.Block;
@@ -64,12 +66,14 @@ public class ForgeFancySporeBlossom {
         ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
         PARTICLE_TYPE.register(FMLJavaModLoadingContext.get().getModEventBus());
         RECIPE_SERIALIZER.register(FMLJavaModLoadingContext.get().getModEventBus());
+
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::buildContents);
     }
 
     @SubscribeEvent
     public void buildContents(CreativeModeTabEvent.BuildContents event) {
         if (event.getTab() == CreativeModeTabs.NATURAL_BLOCKS) {
-            event.accept(FANCY_SPORE_BLOSSOM_ITEM);
+            event.getEntries().putAfter(Items.SPORE_BLOSSOM.getDefaultInstance(), FANCY_SPORE_BLOSSOM_ITEM.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
     }
 }
