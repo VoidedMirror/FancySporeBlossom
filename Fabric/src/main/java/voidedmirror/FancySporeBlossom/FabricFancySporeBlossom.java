@@ -3,23 +3,24 @@ package voidedmirror.FancySporeBlossom;
 import com.mojang.serialization.Codec;
 
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.fabricmc.fabric.impl.itemgroup.MinecraftItemGroups;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.material.Material;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 import voidedmirror.FancySporeBlossom.block.FabricFancySporeBlossomBlock;
 import voidedmirror.FancySporeBlossom.block.entity.FabricFancySporeBlossomBlockEntity;
 import voidedmirror.FancySporeBlossom.item.FabricFancySporeBlossomItem;
@@ -47,11 +48,11 @@ public class FabricFancySporeBlossom implements ModInitializer {
         registerParticles();
         registerRecipes();
 
-        ItemGroupEvents.modifyEntriesEvent(MinecraftItemGroups.NATURAL_ID).register(entries -> entries.addAfter(Items.SPORE_BLOSSOM, FANCY_SPORE_BLOSSOM_ITEM));
+        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.NATURAL_BLOCKS).register(entries -> entries.addAfter(Items.SPORE_BLOSSOM, FANCY_SPORE_BLOSSOM_ITEM));
     }
 
     private void registerBlocks() {
-        FANCY_SPORE_BLOSSOM_BLOCK = Registry.register(BuiltInRegistries.BLOCK, getID("fancy_spore_blossom"), new FabricFancySporeBlossomBlock(FabricBlockSettings.of(Material.PLANT).breakInstantly().noCollision().sounds(SoundType.SPORE_BLOSSOM).luminance(state -> state.getValue(BlockStateProperties.LIT) ? 12 : 0)));
+        FANCY_SPORE_BLOSSOM_BLOCK = Registry.register(BuiltInRegistries.BLOCK, getID("fancy_spore_blossom"), new FabricFancySporeBlossomBlock(FabricBlockSettings.of().mapColor(MapColor.PLANT).pistonBehavior(PushReaction.DESTROY).breakInstantly().noCollision().sounds(SoundType.SPORE_BLOSSOM).luminance(state -> state.getValue(BlockStateProperties.LIT) ? 12 : 0)));
     }
 
     private void registerEntities() {

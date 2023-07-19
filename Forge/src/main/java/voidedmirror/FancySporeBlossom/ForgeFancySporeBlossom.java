@@ -14,9 +14,10 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.material.Material;
 
-import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.jetbrains.annotations.NotNull;
 
@@ -41,7 +42,7 @@ public class ForgeFancySporeBlossom {
     private static final DeferredRegister<ParticleType<?>> PARTICLE_TYPE = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, Constants.MOD_ID);
     private static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZER = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, Constants.MOD_ID);
 
-    public static final RegistryObject<Block> FANCY_SPORE_BLOSSOM_BLOCK = BLOCKS.register("fancy_spore_blossom", () -> new ForgeFancySporeBlossomBlock(BlockBehaviour.Properties.of(Material.PLANT).instabreak().noCollission().sound(SoundType.SPORE_BLOSSOM).lightLevel(state -> state.getValue(BlockStateProperties.LIT) ? 12 : 0)));
+    public static final RegistryObject<Block> FANCY_SPORE_BLOSSOM_BLOCK = BLOCKS.register("fancy_spore_blossom", () -> new ForgeFancySporeBlossomBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).pushReaction(PushReaction.DESTROY).instabreak().noCollission().sound(SoundType.SPORE_BLOSSOM).lightLevel(state -> state.getValue(BlockStateProperties.LIT) ? 12 : 0)));
     public static final RegistryObject<BlockEntityType<ForgeFancySporeBlossomBlockEntity>> FANCY_SPORE_BLOSSOM_BLOCK_ENTITY = BLOCK_ENTITY_TYPE.register("fancy_spore_blossom_block_entity", () -> BlockEntityType.Builder.of(ForgeFancySporeBlossomBlockEntity::new, FANCY_SPORE_BLOSSOM_BLOCK.get()).build(null));
     public static final RegistryObject<Item> FANCY_SPORE_BLOSSOM_ITEM = ITEMS.register("fancy_spore_blossom", () -> new ForgeFancySporeBlossomItem(new Item.Properties()));
     public static final RegistryObject<ParticleType<ForgeFancyAirParticleOptions>> FANCY_SPORE_BLOSSOM_AIR = PARTICLE_TYPE.register("fancy_spore_blossom_air", () -> new ParticleType<>(false, ForgeFancyAirParticleOptions.PARAMETERS_FACTORY) {
@@ -71,8 +72,8 @@ public class ForgeFancySporeBlossom {
     }
 
     @SubscribeEvent
-    public void buildContents(CreativeModeTabEvent.BuildContents event) {
-        if (event.getTab() == CreativeModeTabs.NATURAL_BLOCKS) {
+    public void buildContents(BuildCreativeModeTabContentsEvent event) {
+        if (event.getTabKey() == CreativeModeTabs.NATURAL_BLOCKS) {
             event.getEntries().putAfter(Items.SPORE_BLOSSOM.getDefaultInstance(), FANCY_SPORE_BLOSSOM_ITEM.get().getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
     }

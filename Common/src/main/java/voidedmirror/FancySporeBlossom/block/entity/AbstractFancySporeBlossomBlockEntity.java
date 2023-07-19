@@ -131,7 +131,7 @@ public abstract class AbstractFancySporeBlossomBlockEntity extends BlockEntity {
         this.setChanged();
         for (Player player : this.level.players()) {
             if (player instanceof ServerPlayer sPlayer) {
-                sPlayer.connection.send(new ClientboundLevelChunkWithLightPacket(this.level.getChunkAt(this.getBlockPos()), this.level.getLightEngine(), null, null, false));
+                sPlayer.connection.send(new ClientboundLevelChunkWithLightPacket(this.level.getChunkAt(this.getBlockPos()), this.level.getLightEngine(), null, null));
             }
         }
     }
