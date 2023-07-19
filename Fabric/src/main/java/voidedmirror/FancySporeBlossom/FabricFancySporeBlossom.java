@@ -2,11 +2,14 @@ package voidedmirror.FancySporeBlossom;
 
 import com.mojang.serialization.Codec;
 
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.impl.itemgroup.MinecraftItemGroups;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
-import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.SimpleRecipeSerializer;
+import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -43,28 +46,30 @@ public class FabricFancySporeBlossom implements ModInitializer {
         registerItems();
         registerParticles();
         registerRecipes();
+
+        ItemGroupEvents.modifyEntriesEvent(MinecraftItemGroups.NATURAL_ID).register(entries -> entries.addAfter(Items.SPORE_BLOSSOM, FANCY_SPORE_BLOSSOM_ITEM));
     }
 
     private void registerBlocks() {
-        FANCY_SPORE_BLOSSOM_BLOCK = Registry.register(Registry.BLOCK, getID("fancy_spore_blossom"), new FabricFancySporeBlossomBlock(FabricBlockSettings.of(Material.PLANT).breakInstantly().noCollision().sounds(SoundType.SPORE_BLOSSOM).luminance(state -> state.getValue(BlockStateProperties.LIT) ? 12 : 0)));
+        FANCY_SPORE_BLOSSOM_BLOCK = Registry.register(BuiltInRegistries.BLOCK, getID("fancy_spore_blossom"), new FabricFancySporeBlossomBlock(FabricBlockSettings.of(Material.PLANT).breakInstantly().noCollision().sounds(SoundType.SPORE_BLOSSOM).luminance(state -> state.getValue(BlockStateProperties.LIT) ? 12 : 0)));
     }
 
     private void registerEntities() {
-        FANCY_SPORE_BLOSSOM_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, getID("fancy_spore_blossom_block_entity"), FabricBlockEntityTypeBuilder.create(FabricFancySporeBlossomBlockEntity::new, FANCY_SPORE_BLOSSOM_BLOCK).build(null));
+        FANCY_SPORE_BLOSSOM_BLOCK_ENTITY = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, getID("fancy_spore_blossom_block_entity"), FabricBlockEntityTypeBuilder.create(FabricFancySporeBlossomBlockEntity::new, FANCY_SPORE_BLOSSOM_BLOCK).build(null));
     }
 
     private void registerItems() {
-        FANCY_SPORE_BLOSSOM_ITEM = Registry.register(Registry.ITEM, getID("fancy_spore_blossom"), new FabricFancySporeBlossomItem(new FabricItemSettings().group(CreativeModeTab.TAB_DECORATIONS)));
+        FANCY_SPORE_BLOSSOM_ITEM = Registry.register(BuiltInRegistries.ITEM, getID("fancy_spore_blossom"), new FabricFancySporeBlossomItem(new FabricItemSettings()));
     }
 
     private void registerParticles() {
-        FANCY_SPORE_BLOSSOM_AIR = Registry.register(Registry.PARTICLE_TYPE, getID("fancy_spore_blossom_air"), new ParticleType<FabricFancyAirParticleOptions>(false, FabricFancyAirParticleOptions.PARAMETERS_FACTORY) {
+        FANCY_SPORE_BLOSSOM_AIR = Registry.register(BuiltInRegistries.PARTICLE_TYPE, getID("fancy_spore_blossom_air"), new ParticleType<FabricFancyAirParticleOptions>(false, FabricFancyAirParticleOptions.PARAMETERS_FACTORY) {
             @Override
             public Codec<FabricFancyAirParticleOptions> codec() {
                 return FabricFancyAirParticleOptions.CODEC;
             }
         });
-        FANCY_FALLING_SPORE_BLOSSOM = Registry.register(Registry.PARTICLE_TYPE, getID("fancy_falling_spore_blossom"), new ParticleType<FabricFancyFallingParticleOptions>(false, FabricFancyFallingParticleOptions.PARAMETERS_FACTORY) {
+        FANCY_FALLING_SPORE_BLOSSOM = Registry.register(BuiltInRegistries.PARTICLE_TYPE, getID("fancy_falling_spore_blossom"), new ParticleType<FabricFancyFallingParticleOptions>(false, FabricFancyFallingParticleOptions.PARAMETERS_FACTORY) {
             @Override
             public Codec<FabricFancyFallingParticleOptions> codec() {
                 return FabricFancyFallingParticleOptions.CODEC;
@@ -73,6 +78,6 @@ public class FabricFancySporeBlossom implements ModInitializer {
     }
 
     private void registerRecipes() {
-        FANCY_SPORE_BLOSSOM_RECIPE = Registry.register(Registry.RECIPE_SERIALIZER, getID("crafting_special_fancy_spore_blossom"), new SimpleRecipeSerializer<>(FabricFancySporeBlossomRecipe::new));
+        FANCY_SPORE_BLOSSOM_RECIPE = Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, getID("crafting_special_fancy_spore_blossom"), new SimpleCraftingRecipeSerializer(FabricFancySporeBlossomRecipe::new));
     }
 }

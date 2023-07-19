@@ -2,9 +2,9 @@ package voidedmirror.FancySporeBlossom.particle;
 
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.mojang.math.Vector3f;
+import net.minecraft.core.registries.BuiltInRegistries;
+import org.joml.Vector3f;
 
-import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.phys.Vec3;
@@ -16,7 +16,7 @@ import java.util.Locale;
 import voidedmirror.FancySporeBlossom.item.FancyDyeableItem;
 
 public abstract class AbstractFancyFallingParticleOptions implements ParticleOptions {
-    public static final Vector3f WHITE = new Vector3f(Vec3.fromRGB24(FancyDyeableItem.DEFAULT_COLOR));
+    public static final Vector3f WHITE = Vec3.fromRGB24(FancyDyeableItem.DEFAULT_COLOR).toVector3f();
 
     private final Vector3f color;
     private final boolean glowing;
@@ -50,7 +50,7 @@ public abstract class AbstractFancyFallingParticleOptions implements ParticleOpt
 
     @Override
     public @NotNull String writeToString() {
-        return String.format(Locale.ROOT, "%s %.2f %.2f %.2f %b", Registry.PARTICLE_TYPE.getId(getType()), color.x(), color.y(), color.z(), glowing);
+        return String.format(Locale.ROOT, "%s %.2f %.2f %.2f %b", BuiltInRegistries.PARTICLE_TYPE.getId(getType()), color.x(), color.y(), color.z(), glowing);
     }
 
     public Vector3f getColor() {

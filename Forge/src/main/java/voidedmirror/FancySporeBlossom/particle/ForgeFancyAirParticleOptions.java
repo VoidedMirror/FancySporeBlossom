@@ -2,7 +2,7 @@ package voidedmirror.FancySporeBlossom.particle;
 
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.mojang.math.Vector3f;
+import org.joml.Vector3f;
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.particles.ParticleOptions;

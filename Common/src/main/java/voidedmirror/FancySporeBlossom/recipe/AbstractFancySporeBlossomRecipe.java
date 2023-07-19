@@ -7,6 +7,7 @@ import net.minecraft.world.item.ItemStack;
 
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.DyeItem;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.level.Level;
@@ -21,8 +22,8 @@ public abstract class AbstractFancySporeBlossomRecipe extends CustomRecipe {
     private static final Ingredient GLOW_ON = Ingredient.of(Items.GLOW_BERRIES);
     private static final Ingredient GLOW_OFF = Ingredient.of(Items.SWEET_BERRIES);
 
-    public AbstractFancySporeBlossomRecipe(ResourceLocation id) {
-        super(id);
+    public AbstractFancySporeBlossomRecipe(ResourceLocation id, CraftingBookCategory category) {
+        super(id, category);
     }
 
     @Override

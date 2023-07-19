@@ -1,14 +1,12 @@
 package voidedmirror.FancySporeBlossom.recipe;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.crafting.CraftingBookCategory;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-
+import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.util.Identifier;
 import voidedmirror.FancySporeBlossom.FabricFancySporeBlossom;
 
 public class FabricFancySporeBlossomRecipe extends AbstractFancySporeBlossomRecipe {
-    public FabricFancySporeBlossomRecipe(ResourceLocation id, CraftingBookCategory category) {
-        super(id, category);
+    public FabricFancySporeBlossomRecipe(Identifier id) {
+        super(id);
     }
 
     @Override

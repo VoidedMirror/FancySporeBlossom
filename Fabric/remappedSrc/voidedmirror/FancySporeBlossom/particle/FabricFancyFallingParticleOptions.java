@@ -2,13 +2,11 @@ package voidedmirror.FancySporeBlossom.particle;
 
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import org.joml.Vector3f;
+import com.mojang.math.Vector3f;
 import com.mojang.serialization.Codec;
-
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleType;
-import net.minecraft.network.FriendlyByteBuf;
-
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.particle.ParticleEffect;
+import net.minecraft.particle.ParticleType;
 import org.jetbrains.annotations.NotNull;
 
 import voidedmirror.FancySporeBlossom.FabricFancySporeBlossom;
@@ -16,9 +14,9 @@ import voidedmirror.FancySporeBlossom.FabricFancySporeBlossom;
 public class FabricFancyFallingParticleOptions extends AbstractFancyFallingParticleOptions {
     public static final FabricFancyFallingParticleOptions DEFAULT = new FabricFancyFallingParticleOptions(WHITE, false);
     public static final Codec<FabricFancyFallingParticleOptions> CODEC = Codec.unit(DEFAULT);
-    public static final ParticleOptions.Deserializer<FabricFancyFallingParticleOptions> PARAMETERS_FACTORY = new ParticleOptions.Deserializer<>() {
+    public static final ParticleEffect.Factory<FabricFancyFallingParticleOptions> PARAMETERS_FACTORY = new ParticleEffect.Factory<>() {
         @Override
-        public @NotNull FabricFancyFallingParticleOptions fromCommand(@NotNull ParticleType<FabricFancyFallingParticleOptions> type, @NotNull StringReader reader) throws CommandSyntaxException {
+        public @NotNull FabricFancyFallingParticleOptions read(@NotNull ParticleType<FabricFancyFallingParticleOptions> type, @NotNull StringReader reader) throws CommandSyntaxException {
             Vector3f color = readColor(reader);
             reader.expect(' ');
             boolean glowing = reader.readBoolean();
@@ -26,7 +24,7 @@ public class FabricFancyFallingParticleOptions extends AbstractFancyFallingParti
         }
 
         @Override
-        public @NotNull FabricFancyFallingParticleOptions fromNetwork(@NotNull ParticleType<FabricFancyFallingParticleOptions> type, @NotNull FriendlyByteBuf buf) {
+        public @NotNull FabricFancyFallingParticleOptions read(@NotNull ParticleType<FabricFancyFallingParticleOptions> type, @NotNull PacketByteBuf buf) {
             return new FabricFancyFallingParticleOptions(readColor(buf), buf.readBoolean());
         }
     };
